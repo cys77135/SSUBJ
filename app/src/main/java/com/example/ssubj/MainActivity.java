@@ -1,9 +1,9 @@
 package com.example.ssubj;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity
@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Three"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.menu));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.restaurant));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.location));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Initializing ViewPager
