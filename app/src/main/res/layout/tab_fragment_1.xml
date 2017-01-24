@@ -4,11 +4,31 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:text="This is Tab 1"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:orientation="vertical">
 
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#01A6CA"
+            android:text="밥집 목록"
+            android:textSize="30dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#01A6CA"
+            android:text="랜덤 선택"
+            android:textSize="30dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
 </RelativeLayout>
