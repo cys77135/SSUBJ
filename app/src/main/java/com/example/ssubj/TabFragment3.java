@@ -11,6 +11,7 @@ import android.widget.Spinner;
 public class TabFragment3 extends Fragment
 {
     private Spinner locationSpinner;
+    private String locationSelect;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -23,6 +24,7 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                locationSelect = locationSpinner.getSelectedItem().toString();
             }
 
             @Override
