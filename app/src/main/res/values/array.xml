@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="menu">
+        <item >메뉴 선택</item>
         <item >한식</item>
         <item >패스트푸드</item>
         <item >중식</item>
@@ -9,5 +10,12 @@
         <item >고기</item>
         <item >분식</item>
         <item >양식</item>
+    </string-array>
+
+    <string-array name="location">
+        <item >위치 선택</item>
+        <item >정보과학관 ~ 중문</item>
+        <item >중문 ~ 정문</item>
+        <item >정문 건너편</item>
     </string-array>
 </resources>
