@@ -1,20 +1,40 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:layout_weight="1"
-        android:id="@+id/menu_listview"
+    <LinearLayout
+        android:id="@+id/menu"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ListView
+            android:id="@+id/menu_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"/>
+
+        <Button
+            android:id="@+id/menu_back"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#62C6C5"
+            android:text="돌아가기"
+            android:textSize="30dp"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/menu_btns"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <Spinner
             android:id="@+id/menu_spinner"
@@ -26,7 +46,8 @@
         <LinearLayout
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
             android:orientation="vertical">
 
             <Button
@@ -53,4 +74,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

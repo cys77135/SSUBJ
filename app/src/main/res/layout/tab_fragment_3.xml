@@ -1,43 +1,77 @@
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/location_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        android:entries="@array/location"/>
-
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
-        <Button
-            android:id="@+id/location_list"
+        <ListView
+            android:id="@+id/location_listview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="#01A6CA"
-            android:text="밥집 목록"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp"/>
+            android:layout_weight="9"/>
 
         <Button
-            android:id="@+id/location_select"
+            android:id="@+id/location_back"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:background="#01A6CA"
-            android:text="랜덤 선택"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp"/>
+            android:background="#62C6C5"
+            android:text="돌아가기"
+            android:textSize="30dp"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/location_list_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <Spinner
+            android:id="@+id/location_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:entries="@array/location"/>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/location_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="#01A6CA"
+                android:text="밥집 목록"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+
+            <Button
+                android:id="@+id/location_select"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="#01A6CA"
+                android:text="랜덤 선택"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
