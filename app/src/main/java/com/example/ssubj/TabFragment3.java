@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,8 +32,9 @@ public class TabFragment3 extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.tab_fragment_3, null);
+        locationSetting();
 
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
+        final ArrayAdapter<String> locationAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
 
         location = (LinearLayout) view.findViewById(R.id.location);
         locationListSelect = (LinearLayout) view.findViewById(R.id.location_list_select);
@@ -42,7 +44,6 @@ public class TabFragment3 extends Fragment
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
 
         locationListView = (ListView) view.findViewById(R.id.location_listview);
-        locationListView.setAdapter(locationAdapter);
 
         locationSpinner = (Spinner) view.findViewById(R.id.location_spinner);
 
@@ -51,6 +52,11 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                for (int i = listLocation.size() - 1; i >= 0; i--)
+                {
+                    listLocation.remove(i);
+                }
+                locationSetting();
                 locationSelected = locationSpinner.getSelectedItem().toString();
             }
 
@@ -69,9 +75,14 @@ public class TabFragment3 extends Fragment
                 {
                     if (!locationSelected.equals("위치 선택"))
                     {
-                        loadTxt(locationSelected.charAt(0));
+                        locationChange(locationSelected.charAt(0));
+                        locationAdapter.notifyDataSetChanged();
                         locationListSelect.setVisibility(View.INVISIBLE);
                         location.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "위치를 선택하세요", Toast.LENGTH_LONG).show();
                     }
                 }
                 else if (v.getId() == R.id.location_select)
@@ -97,10 +108,12 @@ public class TabFragment3 extends Fragment
         locationBtnSelect.setOnClickListener(locationListener);
         locationBtnBack.setOnClickListener(locationListener);
 
+        locationListView.setAdapter(locationAdapter);
+
         return view;
     }
 
-    public void loadTxt(char ch)
+    public void locationSetting()
     {
         InputStream inputData = getResources().openRawResource(R.raw.ssubjlist);
 
@@ -112,14 +125,9 @@ public class TabFragment3 extends Fragment
                 String string = bufferedReader.readLine();
 
                 if (string != null)
-                    if (string.charAt(0) == ch)
-                    {
-                        listLocation.add(string.substring(5, string.length()));
-                    }
-                    else
-                    {
-                        locationBtnBack.setText(locationSelected);
-                    }
+                {
+                    listLocation.add(string);
+                }
                 else
                 {
                     break;
@@ -130,6 +138,23 @@ public class TabFragment3 extends Fragment
         catch (IOException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public void locationChange(char ch)
+    {
+        String string;
+        for (int i = listLocation.size() - 1; i >= 0; i--)
+        {
+            string = listLocation.get(i);
+            if (string.charAt(0) == ch)
+            {
+                listLocation.set(i, string.substring(5, string.length()));
+            }
+            else
+            {
+                listLocation.remove(i);
+            }
         }
     }
 }
