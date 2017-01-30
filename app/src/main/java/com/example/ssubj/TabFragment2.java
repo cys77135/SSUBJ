@@ -11,19 +11,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class TabFragment2 extends Fragment
 {
     private ListView allListView;
     private LinearLayout all, allListSelect;
     private Button allBtnList, allBtnSelect, allBtnBack;
-    String[] LIST_ALL = {"ALIST1", "ALIST2", "ALIST3", "ALIST4", "ALIST5", "ALIST6", "ALIST7", "ALIST8", "ALIST9", "ALIST10"};
+    ArrayList<String> listAll = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.tab_fragment_2, null);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, LIST_ALL);
+        loadTxt();
+
+        ArrayAdapter<String> allAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listAll);
 
         all = (LinearLayout) view.findViewById(R.id.all);
         allListSelect = (LinearLayout) view.findViewById(R.id.all_btns);
@@ -33,7 +41,7 @@ public class TabFragment2 extends Fragment
         allBtnBack = (Button) view.findViewById(R.id.all_back);
 
         allListView = (ListView) view.findViewById(R.id.all_listview);
-        allListView.setAdapter(adapter);
+        allListView.setAdapter(allAdapter);
 
         View.OnClickListener allListener = new View.OnClickListener()
         {
@@ -45,9 +53,11 @@ public class TabFragment2 extends Fragment
                     allListSelect.setVisibility(View.INVISIBLE);
                     all.setVisibility(View.VISIBLE);
                 }
+
                 else if (v.getId() == R.id.all_select)
                 {
                 }
+
                 else if (v.getId() == R.id.all_back)
                 {
                     allListSelect.setVisibility(View.VISIBLE);
@@ -69,5 +79,34 @@ public class TabFragment2 extends Fragment
         allBtnBack.setOnClickListener(allListener);
 
         return view;
+    }
+
+    public void loadTxt()
+    {
+        InputStream inputData = getResources().openRawResource(R.raw.ssubjlist);
+
+        try
+        {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputData, "EUC_KR"));
+            while (true)
+            {
+                String string = bufferedReader.readLine();
+
+                if (string != null)
+                {
+                    string = string.substring(5, string.length());
+                    listAll.add(string);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

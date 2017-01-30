@@ -1,22 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="menu">
         <item >메뉴 선택</item>
-        <item >한식</item>
-        <item >패스트푸드</item>
-        <item >중식</item>
-        <item >일식</item>
-        <item >치킨</item>
-        <item >고기</item>
-        <item >분식</item>
-        <item >양식</item>
+        <item >01. 베트남음식</item>
+        <item >02. 한식</item>
+        <item >03. 분식</item>
+        <item >04. 일식</item>
+        <item >05. 학식</item>
+        <item >06. 양식</item>
+        <item >07. 패스트푸드</item>
+        <item >08. 중식</item>
+        <item >09. 치킨</item>
+        <item >10. 고기</item>
     </string-array>
 
     <string-array name="location">
         <item >위치 선택</item>
-        <item >정보과학관 ~ 중문</item>
-        <item >중문 ~ 정문</item>
-        <item >정문 건너편</item>
-        <item >학교 내부</item>
+        <item >A. 정보과학관 ~ 중문</item>
+        <item >B. 중문 ~ 정문</item>
+        <item >C. 정문 건너편</item>
+        <item >D. 학교 내부</item>
     </string-array>
 </resources>

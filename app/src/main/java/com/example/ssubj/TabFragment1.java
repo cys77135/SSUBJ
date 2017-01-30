@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 public class TabFragment1 extends Fragment
 {
     private Spinner menuSpinner;
@@ -19,14 +21,14 @@ public class TabFragment1 extends Fragment
     private ListView menuListView;
     private LinearLayout menu, menuListSelect;
     private Button menuBtnList, menuBtnSelect, menuBtnBack;
-    String[] LIST_MENU = {"MLIST1", "MLIST2", "MLIST3", "MLIST4", "MLIST5", "MLIST6", "MLIST7", "MLIST8", "MLIST9", "MLIST10"};
+    ArrayList<String> listMenu = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.tab_fragment_1, null);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, LIST_MENU);
+        ArrayAdapter<String> menuAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listMenu);
 
         menu = (LinearLayout) view.findViewById(R.id.menu);
         menuListSelect = (LinearLayout) view.findViewById(R.id.menu_btns);
@@ -36,7 +38,7 @@ public class TabFragment1 extends Fragment
         menuBtnBack = (Button) view.findViewById(R.id.menu_back);
 
         menuListView = (ListView) view.findViewById(R.id.menu_listview);
-        menuListView.setAdapter(adapter);
+        menuListView.setAdapter(menuAdapter);
 
         menuSpinner = (Spinner) view.findViewById(R.id.menu_spinner);
 
@@ -61,8 +63,11 @@ public class TabFragment1 extends Fragment
             {
                 if (v.getId() == R.id.menu_list)
                 {
-                    menuListSelect.setVisibility(View.INVISIBLE);
-                    menu.setVisibility(View.VISIBLE);
+                    if (!menuSelected.equals("메뉴 선택"))
+                    {
+                        menuListSelect.setVisibility(View.INVISIBLE);
+                        menu.setVisibility(View.VISIBLE);
+                    }
                 }
                 else if (v.getId() == R.id.menu_select)
                 {

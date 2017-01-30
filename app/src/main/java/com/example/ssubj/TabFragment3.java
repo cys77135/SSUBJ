@@ -32,9 +32,7 @@ public class TabFragment3 extends Fragment
     {
         View view = inflater.inflate(R.layout.tab_fragment_3, null);
 
-        loadTxt();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
 
         location = (LinearLayout) view.findViewById(R.id.location);
         locationListSelect = (LinearLayout) view.findViewById(R.id.location_list_select);
@@ -44,7 +42,7 @@ public class TabFragment3 extends Fragment
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
 
         locationListView = (ListView) view.findViewById(R.id.location_listview);
-        locationListView.setAdapter(adapter);
+        locationListView.setAdapter(locationAdapter);
 
         locationSpinner = (Spinner) view.findViewById(R.id.location_spinner);
 
@@ -71,6 +69,7 @@ public class TabFragment3 extends Fragment
                 {
                     if (!locationSelected.equals("위치 선택"))
                     {
+                        loadTxt(locationSelected.charAt(0));
                         locationListSelect.setVisibility(View.INVISIBLE);
                         location.setVisibility(View.VISIBLE);
                     }
@@ -101,9 +100,9 @@ public class TabFragment3 extends Fragment
         return view;
     }
 
-    public void loadTxt()
+    public void loadTxt(char ch)
     {
-        InputStream inputData = getResources().openRawResource(R.raw.ssubjalist);
+        InputStream inputData = getResources().openRawResource(R.raw.ssubjlist);
 
         try
         {
@@ -113,15 +112,21 @@ public class TabFragment3 extends Fragment
                 String string = bufferedReader.readLine();
 
                 if (string != null)
-                {
-                    listLocation.add(string);
-                }
+                    if (string.charAt(0) == ch)
+                    {
+                        listLocation.add(string.substring(5, string.length()));
+                    }
+                    else
+                    {
+                        locationBtnBack.setText(locationSelected);
+                    }
                 else
                 {
                     break;
                 }
             }
         }
+
         catch (IOException e)
         {
             e.printStackTrace();
