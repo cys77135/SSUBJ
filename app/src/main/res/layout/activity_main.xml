@@ -32,9 +32,11 @@
                 android:id="@+id/edit_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:hint="검색할 밥집 이름을 입력하세요"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
                 android:visibility="invisible"/>
 
             <requestFocus/>
@@ -53,19 +55,61 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:tabSelectedTextColor="#FFFFFF"
-        app:tabTextColor="#FFFFFF"/>
+        android:layout_height="0dp"
+        android:layout_weight="9">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/layout_tab_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:tabSelectedTextColor="#FFFFFF"
+                app:tabTextColor="#FFFFFF"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/search_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="30dp"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#62C6C5"
+                android:text="돌아가기"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
