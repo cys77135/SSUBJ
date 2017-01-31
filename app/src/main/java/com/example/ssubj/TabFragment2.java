@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class TabFragment2 extends Fragment
 {
     private ListView allListView;
+    private TextView allInfo;
     private LinearLayout all, allListSelect;
     private Button allBtnList, allBtnSelect, allBtnBack;
     ArrayList<String> listAll = new ArrayList<>();
@@ -28,10 +30,9 @@ public class TabFragment2 extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.tab_fragment_2, null);
+        allSetting();
 
-        loadTxt();
-
-        ArrayAdapter<String> allAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listAll);
+        final ArrayAdapter<String> allAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listAll);
 
         all = (LinearLayout) view.findViewById(R.id.all);
         allListSelect = (LinearLayout) view.findViewById(R.id.all_btns);
@@ -41,7 +42,8 @@ public class TabFragment2 extends Fragment
         allBtnBack = (Button) view.findViewById(R.id.all_back);
 
         allListView = (ListView) view.findViewById(R.id.all_listview);
-        allListView.setAdapter(allAdapter);
+
+        allInfo = (TextView) view.findViewById(R.id.all_info);
 
         View.OnClickListener allListener = new View.OnClickListener()
         {
@@ -50,16 +52,34 @@ public class TabFragment2 extends Fragment
             {
                 if (v.getId() == R.id.all_list)
                 {
+                    allSetting();
+                    allChange();
+                    allAdapter.notifyDataSetChanged();
+
                     allListSelect.setVisibility(View.INVISIBLE);
+                    allInfo.setVisibility(View.INVISIBLE);
+                    allBtnBack.setVisibility(View.VISIBLE);
                     all.setVisibility(View.VISIBLE);
                 }
 
                 else if (v.getId() == R.id.all_select)
                 {
+                    allInfo.setText(allRandom((int) (Math.random() * 74) + 1));
+
+                    allListSelect.setVisibility(View.INVISIBLE);
+                    all.setVisibility(View.INVISIBLE);
+                    allBtnBack.setVisibility(View.VISIBLE);
+                    allInfo.setVisibility(View.VISIBLE);
                 }
 
                 else if (v.getId() == R.id.all_back)
                 {
+                    allSetting();
+                    allChange();
+                    allAdapter.notifyDataSetChanged();
+
+                    allBtnBack.setVisibility(View.INVISIBLE);
+                    allInfo.setVisibility(View.INVISIBLE);
                     allListSelect.setVisibility(View.VISIBLE);
                     all.setVisibility(View.INVISIBLE);
                 }
@@ -78,12 +98,19 @@ public class TabFragment2 extends Fragment
         allBtnSelect.setOnClickListener(allListener);
         allBtnBack.setOnClickListener(allListener);
 
+        allListView.setAdapter(allAdapter);
+
         return view;
     }
 
-    public void loadTxt()
+    public void allSetting()
     {
         InputStream inputData = getResources().openRawResource(R.raw.ssubjlist);
+
+        for (int i = listAll.size() - 1; i >= 0; i--)
+        {
+            listAll.remove(i);
+        }
 
         try
         {
@@ -94,7 +121,6 @@ public class TabFragment2 extends Fragment
 
                 if (string != null)
                 {
-                    string = string.substring(5, string.length());
                     listAll.add(string);
                 }
                 else
@@ -108,5 +134,27 @@ public class TabFragment2 extends Fragment
         {
             e.printStackTrace();
         }
+    }
+
+    public void allChange()
+    {
+        for (int i = 0; i < listAll.size(); i++)
+        {
+            listAll.set(i, listAll.get(i).substring(5, listAll.get(i).length()));
+        }
+    }
+
+    public String allRandom(int allInt)
+    {
+        allSetting();
+
+        for (int i = 0; i < listAll.size(); i++)
+        {
+            if (allInt == Integer.parseInt(listAll.get(i).substring(3, 5)))
+            {
+                return listAll.get(i).substring(5, listAll.get(i).length());
+            }
+        }
+        return null;
     }
 }

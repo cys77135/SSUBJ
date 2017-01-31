@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ public class TabFragment3 extends Fragment
     private Spinner locationSpinner;
     private String locationSelected = "위치 선택";
     private ListView locationListView;
+    private TextView locationInfo;
     private LinearLayout location, locationListSelect;
     private Button locationBtnList, locationBtnSelect, locationBtnBack;
     ArrayList<String> listLocation = new ArrayList<>();
@@ -37,13 +39,15 @@ public class TabFragment3 extends Fragment
         final ArrayAdapter<String> locationAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
 
         location = (LinearLayout) view.findViewById(R.id.location);
-        locationListSelect = (LinearLayout) view.findViewById(R.id.location_list_select);
+        locationListSelect = (LinearLayout) view.findViewById(R.id.location_btns);
 
         locationBtnList = (Button) view.findViewById(R.id.location_list);
         locationBtnSelect = (Button) view.findViewById(R.id.location_select);
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
 
         locationListView = (ListView) view.findViewById(R.id.location_listview);
+
+        locationInfo = (TextView) view.findViewById(R.id.location_info);
 
         locationSpinner = (Spinner) view.findViewById(R.id.location_spinner);
 
@@ -52,15 +56,8 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                if (!locationSelected.equals(locationSpinner.getSelectedItem().toString()))
-                {
-                    for (int i = listLocation.size() - 1; i >= 0; i--)
-                    {
-                        listLocation.remove(i);
-                    }
-                    locationSetting();
-                    locationSelected = locationSpinner.getSelectedItem().toString();
-                }
+                locationSetting();
+                locationSelected = locationSpinner.getSelectedItem().toString();
             }
 
             @Override
@@ -80,7 +77,10 @@ public class TabFragment3 extends Fragment
                     {
                         locationChange(locationSelected.charAt(0));
                         locationAdapter.notifyDataSetChanged();
+
                         locationListSelect.setVisibility(View.INVISIBLE);
+                        locationInfo.setVisibility(View.INVISIBLE);
+                        locationBtnBack.setVisibility(View.VISIBLE);
                         location.setVisibility(View.VISIBLE);
                     }
                     else
@@ -90,11 +90,29 @@ public class TabFragment3 extends Fragment
                 }
                 else if (v.getId() == R.id.location_select)
                 {
+                    if (!locationSelected.equals("위치 선택"))
+                    {
+                        locationInfo.setText(locationRandom());
+
+                        locationListSelect.setVisibility(View.INVISIBLE);
+                        location.setVisibility(View.INVISIBLE);
+                        locationBtnBack.setVisibility(View.VISIBLE);
+                        locationInfo.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "메뉴를 선택하세요", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else if (v.getId() == R.id.location_back)
                 {
-                    locationListSelect.setVisibility(View.VISIBLE);
+                    locationSetting();
+                    locationAdapter.notifyDataSetChanged();
+
+                    locationBtnBack.setVisibility(View.INVISIBLE);
+                    locationInfo.setVisibility(View.INVISIBLE);
                     location.setVisibility(View.INVISIBLE);
+                    locationListSelect.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -119,6 +137,11 @@ public class TabFragment3 extends Fragment
     public void locationSetting()
     {
         InputStream inputData = getResources().openRawResource(R.raw.ssubjlist);
+
+        for (int i = listLocation.size() - 1; i >= 0; i--)
+        {
+            listLocation.remove(i);
+        }
 
         try
         {
@@ -157,6 +180,35 @@ public class TabFragment3 extends Fragment
             else
             {
                 listLocation.remove(i);
+            }
+        }
+    }
+
+    public String locationRandom()
+    {
+        int locationInt;
+        String string;
+
+        locationSetting();
+
+        for (int i = listLocation.size() - 1; i >= 0; i--)
+        {
+            string = listLocation.get(i);
+            if (locationSelected.charAt(0) != (string.charAt(0)))
+            {
+                listLocation.remove(i);
+            }
+        }
+
+        while (true)
+        {
+            locationInt = (int) (Math.random() * 74) + 1;
+            for (int i = 0; i < listLocation.size(); i++)
+            {
+                if (locationInt == Integer.parseInt(listLocation.get(i).substring(3, 5)))
+                {
+                    return listLocation.get(i).substring(5, listLocation.get(i).length());
+                }
             }
         }
     }
