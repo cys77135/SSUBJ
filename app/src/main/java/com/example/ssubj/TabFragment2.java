@@ -64,7 +64,7 @@ public class TabFragment2 extends Fragment
 
                 else if (v.getId() == R.id.all_select)
                 {
-                    allInfo.setText(allRandom((int) (Math.random() * 74) + 1));
+                    allInfo.setText(allRandom((int) (Math.random() * 74) + 1) + "\n");
 
                     allListSelect.setVisibility(View.INVISIBLE);
                     all.setVisibility(View.INVISIBLE);
@@ -146,15 +146,74 @@ public class TabFragment2 extends Fragment
 
     public String allRandom(int allInt)
     {
+        String string;
         allSetting();
 
         for (int i = 0; i < listAll.size(); i++)
         {
             if (allInt == Integer.parseInt(listAll.get(i).substring(3, 5)))
             {
-                return listAll.get(i).substring(5, listAll.get(i).length());
+                string = listAll.get(i).substring(5, listAll.get(i).length()) + "\n\n";
+                string += allText(listAll.get(i).substring(0, 5));
+                return string;
             }
         }
         return null;
+    }
+
+    public String allText(String str)
+    {
+        String stringm = null, stringl = null;
+
+        InputStream inputMData = getResources().openRawResource(R.raw.ssubjmlist);
+        InputStream inputLData = getResources().openRawResource(R.raw.ssubjllist);
+
+        try
+        {
+            BufferedReader bufferedMReader = new BufferedReader(new InputStreamReader(inputMData, "EUC_KR"));
+            BufferedReader bufferedLReader = new BufferedReader(new InputStreamReader(inputLData, "EUC_KR"));
+
+            while (true)
+            {
+                String Mstring = bufferedMReader.readLine();
+
+                if (Mstring != null)
+                {
+                    if (str.substring(1, 3).equals(Mstring.substring(0, 2)))
+                    {
+                        stringm = "메뉴 : " + Mstring.substring(2, Mstring.length()) + "\n\n";
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                String Lstring = bufferedLReader.readLine();
+
+                if (Lstring != null)
+                {
+                    if (str.charAt(0) == Lstring.charAt(0))
+                    {
+                        stringl = "위치 : " + Lstring.substring(1, Lstring.length());
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return stringm + stringl;
     }
 }

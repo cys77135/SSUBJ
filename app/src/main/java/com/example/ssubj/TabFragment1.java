@@ -207,9 +207,44 @@ public class TabFragment1 extends Fragment
             {
                 if (menuInt == Integer.parseInt(listMenu.get(i).substring(3, 5)))
                 {
-                    return listMenu.get(i).substring(5, listMenu.get(i).length());
+                    string = listMenu.get(i).substring(5, listMenu.get(i).length()) + "\n\n";
+                    string += "메뉴 : " + menuSelected.substring(4, menuSelected.length()) + "\n\n";
+                    string += "위치 : " + menuText(listMenu.get(i).charAt(0));
+                    return string;
                 }
             }
         }
+    }
+
+    public String menuText(char ch)
+    {
+        InputStream inputData = getResources().openRawResource(R.raw.ssubjllist);
+
+        try
+        {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputData, "EUC_KR"));
+            while (true)
+            {
+                String string = bufferedReader.readLine();
+
+                if (string != null)
+                {
+                    if (string.charAt(0) == ch)
+                    {
+                        return string.substring(1, string.length());
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

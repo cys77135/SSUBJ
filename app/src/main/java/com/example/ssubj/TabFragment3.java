@@ -101,7 +101,7 @@ public class TabFragment3 extends Fragment
                     }
                     else
                     {
-                        Toast.makeText(getActivity(), "메뉴를 선택하세요", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "위치를 선택하세요", Toast.LENGTH_LONG).show();
                     }
                 }
                 else if (v.getId() == R.id.location_back)
@@ -207,9 +207,44 @@ public class TabFragment3 extends Fragment
             {
                 if (locationInt == Integer.parseInt(listLocation.get(i).substring(3, 5)))
                 {
-                    return listLocation.get(i).substring(5, listLocation.get(i).length());
+                    string = listLocation.get(i).substring(5, listLocation.get(i).length()) + "\n\n";
+                    string += "메뉴 : " + locationText(listLocation.get(i).substring(1, 3)) + "\n\n";
+                    string += "위치 : " + locationSelected.substring(3, locationSelected.length());
+                    return string;
                 }
             }
         }
+    }
+
+    public String locationText(String str)
+    {
+        InputStream inputData = getResources().openRawResource(R.raw.ssubjmlist);
+
+        try
+        {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputData, "EUC_KR"));
+            while (true)
+            {
+                String string = bufferedReader.readLine();
+
+                if (string != null)
+                {
+                    if (str.equals(string.substring(0, 2)))
+                    {
+                        return string.substring(2, string.length());
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
