@@ -28,7 +28,7 @@ public class TabFragment1 extends Fragment
     private ListView menuListView;
     private TextView menuInfo;
     private LinearLayout menu, menuListSelect;
-    private Button menuBtnList, menuBtnSelect, menuBtnBack;
+    private Button menuBtnList, menuBtnSelect, menuBtnBack, menuBtnListBack;
     private ImageButton menuBtnReplay;
     ArrayList<String> listMenu = new ArrayList<>();
 
@@ -46,6 +46,8 @@ public class TabFragment1 extends Fragment
         menuBtnList = (Button) view.findViewById(R.id.menu_list);
         menuBtnSelect = (Button) view.findViewById(R.id.menu_select);
         menuBtnBack = (Button) view.findViewById(R.id.menu_back);
+        menuBtnListBack = (Button) view.findViewById(R.id.menu_list_back);
+
         menuBtnReplay = (ImageButton) view.findViewById(R.id.menu_replay);
 
         menuListView = (ListView) view.findViewById(R.id.menu_listview);
@@ -130,6 +132,18 @@ public class TabFragment1 extends Fragment
                     menuBtnReplay.setVisibility(View.VISIBLE);
                     menuInfo.setVisibility(View.VISIBLE);
                 }
+                else if (v.getId() == R.id.menu_list_back)
+                {
+                    menuChange(menuSelected.substring(0, 2));
+                    menuAdapter.notifyDataSetChanged();
+
+                    menuListSelect.setVisibility(View.INVISIBLE);
+                    menuInfo.setVisibility(View.INVISIBLE);
+                    menuBtnReplay.setVisibility(View.INVISIBLE);
+                    menuBtnListBack.setVisibility(View.INVISIBLE);
+                    menuBtnBack.setVisibility(View.VISIBLE);
+                    menu.setVisibility(View.VISIBLE);
+                }
             }
         };
 
@@ -138,6 +152,26 @@ public class TabFragment1 extends Fragment
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
+                String string = (String) parent.getItemAtPosition(position);
+                menuSetting();
+                for (int i = 0; i < listMenu.size(); i++)
+                {
+                    if (listMenu.get(i).substring(5, listMenu.get(i).length()).equals(string))
+                    {
+                        string = listMenu.get(i).substring(5, listMenu.get(i).length()) + "\n\n";
+                        string += "메뉴 : " + menuSelected.substring(4, menuSelected.length()) + "\n\n";
+                        string += "위치 : " + menuText(listMenu.get(i).charAt(0));
+                        break;
+                    }
+                }
+                menuInfo.setText(string);
+
+                menuListSelect.setVisibility(View.INVISIBLE);
+                menu.setVisibility(View.INVISIBLE);
+                menuBtnReplay.setVisibility(View.INVISIBLE);
+                menuBtnListBack.setVisibility(View.VISIBLE);
+                menuBtnBack.setVisibility(View.VISIBLE);
+                menuInfo.setVisibility(View.VISIBLE);
             }
         });
 
@@ -145,6 +179,7 @@ public class TabFragment1 extends Fragment
         menuBtnSelect.setOnClickListener(menuListener);
         menuBtnBack.setOnClickListener(menuListener);
         menuBtnReplay.setOnClickListener(menuListener);
+        menuBtnListBack.setOnClickListener(menuListener);
 
         menuListView.setAdapter(menuAdapter);
 

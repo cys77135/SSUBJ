@@ -28,7 +28,7 @@ public class TabFragment3 extends Fragment
     private ListView locationListView;
     private TextView locationInfo;
     private LinearLayout location, locationListSelect;
-    private Button locationBtnList, locationBtnSelect, locationBtnBack;
+    private Button locationBtnList, locationBtnSelect, locationBtnBack, locationBtnListBack;
     private ImageButton locationBtnReplay;
     ArrayList<String> listLocation = new ArrayList<>();
 
@@ -46,6 +46,8 @@ public class TabFragment3 extends Fragment
         locationBtnList = (Button) view.findViewById(R.id.location_list);
         locationBtnSelect = (Button) view.findViewById(R.id.location_select);
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
+        locationBtnListBack = (Button) view.findViewById(R.id.location_list_back);
+
         locationBtnReplay = (ImageButton) view.findViewById(R.id.location_replay);
 
         locationListView = (ListView) view.findViewById(R.id.location_listview);
@@ -130,6 +132,18 @@ public class TabFragment3 extends Fragment
                     locationBtnReplay.setVisibility(View.VISIBLE);
                     locationInfo.setVisibility(View.VISIBLE);
                 }
+                else if (v.getId() == R.id.location_list_back)
+                {
+                    locationChange(locationSelected.charAt(0));
+                    locationAdapter.notifyDataSetChanged();
+
+                    locationListSelect.setVisibility(View.INVISIBLE);
+                    locationInfo.setVisibility(View.INVISIBLE);
+                    locationBtnReplay.setVisibility(View.INVISIBLE);
+                    locationBtnListBack.setVisibility(View.INVISIBLE);
+                    locationBtnBack.setVisibility(View.VISIBLE);
+                    location.setVisibility(View.VISIBLE);
+                }
             }
         };
 
@@ -138,6 +152,26 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
+                String string = (String) parent.getItemAtPosition(position);
+                locationSetting();
+                for (int i = 0; i < listLocation.size(); i++)
+                {
+                    if (listLocation.get(i).substring(5, listLocation.get(i).length()).equals(string))
+                    {
+                        string = listLocation.get(i).substring(5, listLocation.get(i).length()) + "\n\n";
+                        string += "메뉴 : " + locationText(listLocation.get(i).substring(1, 3)) + "\n\n";
+                        string += "위치 : " + locationSelected.substring(3, locationSelected.length());
+                        break;
+                    }
+                }
+                locationInfo.setText(string);
+
+                locationListSelect.setVisibility(View.INVISIBLE);
+                location.setVisibility(View.INVISIBLE);
+                locationBtnReplay.setVisibility(View.INVISIBLE);
+                locationBtnBack.setVisibility(View.VISIBLE);
+                locationInfo.setVisibility(View.VISIBLE);
+                locationBtnListBack.setVisibility(View.VISIBLE);
             }
         });
 
@@ -145,6 +179,7 @@ public class TabFragment3 extends Fragment
         locationBtnSelect.setOnClickListener(locationListener);
         locationBtnBack.setOnClickListener(locationListener);
         locationBtnReplay.setOnClickListener(locationListener);
+        locationBtnListBack.setOnClickListener(locationListener);
 
         locationListView.setAdapter(locationAdapter);
 

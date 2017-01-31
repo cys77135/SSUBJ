@@ -92,15 +92,30 @@
         </LinearLayout>
     </FrameLayout>
 
-    <Button
-        android:id="@+id/all_back"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#62C6C5"
-        android:text="돌아가기"
-        android:textColor="#FFFFFF"
-        android:textSize="30dp"
-        android:visibility="invisible"/>
+        android:layout_weight="1">
 
+        <Button
+            android:id="@+id/all_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#62C6C5"
+            android:text="돌아가기"
+            android:textColor="#FFFFFF"
+            android:textSize="30dp"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/all_list_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#62C6C5"
+            android:text="돌아가기"
+            android:textColor="#FFFFFF"
+            android:textSize="30dp"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
 </LinearLayout>
