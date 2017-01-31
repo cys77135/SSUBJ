@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class TabFragment1 extends Fragment
 {
     private Spinner menuSpinner;
-    private String menuSelected;
+    private String menuSelected = "메뉴 선택";
     private ListView menuListView;
     private LinearLayout menu, menuListSelect;
     private Button menuBtnList, menuBtnSelect, menuBtnBack;
@@ -52,12 +52,15 @@ public class TabFragment1 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                for (int i = listMenu.size() - 1; i >= 0; i--)
+                if (!menuSelected.equals(menuSpinner.getSelectedItem().toString()))
                 {
-                    listMenu.remove(i);
+                    for (int i = listMenu.size() - 1; i >= 0; i--)
+                    {
+                        listMenu.remove(i);
+                    }
+                    menuSetting();
+                    menuSelected = menuSpinner.getSelectedItem().toString();
                 }
-                menuSetting();
-                menuSelected = menuSpinner.getSelectedItem().toString();
             }
 
             @Override

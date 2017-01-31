@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class TabFragment3 extends Fragment
 {
     private Spinner locationSpinner;
-    private String locationSelected;
+    private String locationSelected = "위치 선택";
     private ListView locationListView;
     private LinearLayout location, locationListSelect;
     private Button locationBtnList, locationBtnSelect, locationBtnBack;
@@ -52,12 +52,15 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                for (int i = listLocation.size() - 1; i >= 0; i--)
+                if (!locationSelected.equals(locationSpinner.getSelectedItem().toString()))
                 {
-                    listLocation.remove(i);
+                    for (int i = listLocation.size() - 1; i >= 0; i--)
+                    {
+                        listLocation.remove(i);
+                    }
+                    locationSetting();
+                    locationSelected = locationSpinner.getSelectedItem().toString();
                 }
-                locationSetting();
-                locationSelected = locationSpinner.getSelectedItem().toString();
             }
 
             @Override
