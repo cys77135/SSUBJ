@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,6 +29,7 @@ public class TabFragment1 extends Fragment
     private TextView menuInfo;
     private LinearLayout menu, menuListSelect;
     private Button menuBtnList, menuBtnSelect, menuBtnBack;
+    private ImageButton menuBtnReplay;
     ArrayList<String> listMenu = new ArrayList<>();
 
     @Override
@@ -44,6 +46,7 @@ public class TabFragment1 extends Fragment
         menuBtnList = (Button) view.findViewById(R.id.menu_list);
         menuBtnSelect = (Button) view.findViewById(R.id.menu_select);
         menuBtnBack = (Button) view.findViewById(R.id.menu_back);
+        menuBtnReplay = (ImageButton) view.findViewById(R.id.menu_replay);
 
         menuListView = (ListView) view.findViewById(R.id.menu_listview);
 
@@ -80,6 +83,7 @@ public class TabFragment1 extends Fragment
 
                         menuListSelect.setVisibility(View.INVISIBLE);
                         menuInfo.setVisibility(View.INVISIBLE);
+                        menuBtnReplay.setVisibility(View.INVISIBLE);
                         menuBtnBack.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.VISIBLE);
                     }
@@ -97,6 +101,7 @@ public class TabFragment1 extends Fragment
                         menuListSelect.setVisibility(View.INVISIBLE);
                         menu.setVisibility(View.INVISIBLE);
                         menuBtnBack.setVisibility(View.VISIBLE);
+                        menuBtnReplay.setVisibility(View.VISIBLE);
                         menuInfo.setVisibility(View.VISIBLE);
                     }
                     else
@@ -112,7 +117,18 @@ public class TabFragment1 extends Fragment
                     menuBtnBack.setVisibility(View.INVISIBLE);
                     menuInfo.setVisibility(View.INVISIBLE);
                     menu.setVisibility(View.INVISIBLE);
+                    menuBtnReplay.setVisibility(View.INVISIBLE);
                     menuListSelect.setVisibility(View.VISIBLE);
+                }
+                else if (v.getId() == R.id.menu_replay)
+                {
+                    menuInfo.setText(menuRandom());
+
+                    menuListSelect.setVisibility(View.INVISIBLE);
+                    menu.setVisibility(View.INVISIBLE);
+                    menuBtnBack.setVisibility(View.VISIBLE);
+                    menuBtnReplay.setVisibility(View.VISIBLE);
+                    menuInfo.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -128,6 +144,7 @@ public class TabFragment1 extends Fragment
         menuBtnList.setOnClickListener(menuListener);
         menuBtnSelect.setOnClickListener(menuListener);
         menuBtnBack.setOnClickListener(menuListener);
+        menuBtnReplay.setOnClickListener(menuListener);
 
         menuListView.setAdapter(menuAdapter);
 

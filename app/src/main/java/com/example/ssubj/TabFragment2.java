@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ public class TabFragment2 extends Fragment
     private TextView allInfo;
     private LinearLayout all, allListSelect;
     private Button allBtnList, allBtnSelect, allBtnBack;
+    private ImageButton allBtnReplay;
+
     ArrayList<String> listAll = new ArrayList<>();
 
     @Override
@@ -40,6 +43,7 @@ public class TabFragment2 extends Fragment
         allBtnList = (Button) view.findViewById(R.id.all_list);
         allBtnSelect = (Button) view.findViewById(R.id.all_select);
         allBtnBack = (Button) view.findViewById(R.id.all_back);
+        allBtnReplay = (ImageButton) view.findViewById(R.id.all_replay);
 
         allListView = (ListView) view.findViewById(R.id.all_listview);
 
@@ -58,6 +62,7 @@ public class TabFragment2 extends Fragment
 
                     allListSelect.setVisibility(View.INVISIBLE);
                     allInfo.setVisibility(View.INVISIBLE);
+                    allBtnReplay.setVisibility(View.INVISIBLE);
                     allBtnBack.setVisibility(View.VISIBLE);
                     all.setVisibility(View.VISIBLE);
                 }
@@ -69,6 +74,7 @@ public class TabFragment2 extends Fragment
                     allListSelect.setVisibility(View.INVISIBLE);
                     all.setVisibility(View.INVISIBLE);
                     allBtnBack.setVisibility(View.VISIBLE);
+                    allBtnReplay.setVisibility(View.VISIBLE);
                     allInfo.setVisibility(View.VISIBLE);
                 }
 
@@ -81,7 +87,18 @@ public class TabFragment2 extends Fragment
                     allBtnBack.setVisibility(View.INVISIBLE);
                     allInfo.setVisibility(View.INVISIBLE);
                     allListSelect.setVisibility(View.VISIBLE);
+                    allBtnReplay.setVisibility(View.INVISIBLE);
                     all.setVisibility(View.INVISIBLE);
+                }
+                else if (v.getId() == R.id.all_replay)
+                {
+                    allInfo.setText(allRandom((int) (Math.random() * 74) + 1) + "\n");
+
+                    allListSelect.setVisibility(View.INVISIBLE);
+                    all.setVisibility(View.INVISIBLE);
+                    allBtnBack.setVisibility(View.VISIBLE);
+                    allBtnReplay.setVisibility(View.VISIBLE);
+                    allInfo.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -97,6 +114,7 @@ public class TabFragment2 extends Fragment
         allBtnList.setOnClickListener(allListener);
         allBtnSelect.setOnClickListener(allListener);
         allBtnBack.setOnClickListener(allListener);
+        allBtnReplay.setOnClickListener(allListener);
 
         allListView.setAdapter(allAdapter);
 

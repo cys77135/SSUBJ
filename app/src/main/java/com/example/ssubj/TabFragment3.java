@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,6 +29,7 @@ public class TabFragment3 extends Fragment
     private TextView locationInfo;
     private LinearLayout location, locationListSelect;
     private Button locationBtnList, locationBtnSelect, locationBtnBack;
+    private ImageButton locationBtnReplay;
     ArrayList<String> listLocation = new ArrayList<>();
 
     @Override
@@ -44,6 +46,7 @@ public class TabFragment3 extends Fragment
         locationBtnList = (Button) view.findViewById(R.id.location_list);
         locationBtnSelect = (Button) view.findViewById(R.id.location_select);
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
+        locationBtnReplay = (ImageButton) view.findViewById(R.id.location_replay);
 
         locationListView = (ListView) view.findViewById(R.id.location_listview);
 
@@ -80,6 +83,7 @@ public class TabFragment3 extends Fragment
 
                         locationListSelect.setVisibility(View.INVISIBLE);
                         locationInfo.setVisibility(View.INVISIBLE);
+                        locationBtnReplay.setVisibility(View.INVISIBLE);
                         locationBtnBack.setVisibility(View.VISIBLE);
                         location.setVisibility(View.VISIBLE);
                     }
@@ -97,6 +101,7 @@ public class TabFragment3 extends Fragment
                         locationListSelect.setVisibility(View.INVISIBLE);
                         location.setVisibility(View.INVISIBLE);
                         locationBtnBack.setVisibility(View.VISIBLE);
+                        locationBtnReplay.setVisibility(View.VISIBLE);
                         locationInfo.setVisibility(View.VISIBLE);
                     }
                     else
@@ -112,7 +117,18 @@ public class TabFragment3 extends Fragment
                     locationBtnBack.setVisibility(View.INVISIBLE);
                     locationInfo.setVisibility(View.INVISIBLE);
                     location.setVisibility(View.INVISIBLE);
+                    locationBtnReplay.setVisibility(View.INVISIBLE);
                     locationListSelect.setVisibility(View.VISIBLE);
+                }
+                else if (v.getId() == R.id.location_replay)
+                {
+                    locationInfo.setText(locationRandom());
+
+                    locationListSelect.setVisibility(View.INVISIBLE);
+                    location.setVisibility(View.INVISIBLE);
+                    locationBtnBack.setVisibility(View.VISIBLE);
+                    locationBtnReplay.setVisibility(View.VISIBLE);
+                    locationInfo.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -128,6 +144,7 @@ public class TabFragment3 extends Fragment
         locationBtnList.setOnClickListener(locationListener);
         locationBtnSelect.setOnClickListener(locationListener);
         locationBtnBack.setOnClickListener(locationListener);
+        locationBtnReplay.setOnClickListener(locationListener);
 
         locationListView.setAdapter(locationAdapter);
 
