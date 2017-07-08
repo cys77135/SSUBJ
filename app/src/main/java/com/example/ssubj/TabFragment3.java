@@ -206,7 +206,6 @@ public class TabFragment3 extends Fragment
             }
         });
 
-
         locationListView.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
