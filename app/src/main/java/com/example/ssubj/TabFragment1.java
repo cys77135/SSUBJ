@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static com.example.ssubj.MainActivity.editSearch;
-
 public class TabFragment1 extends Fragment
 {
     private Spinner menuSpinner;
@@ -64,7 +62,7 @@ public class TabFragment1 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
                 MainActivity.toolbar.setVisibility(View.VISIBLE);
                 im.hideSoftInputFromWindow(menuSpinner.getWindowToken(), 0);
                 menuSetting();
@@ -74,7 +72,7 @@ public class TabFragment1 extends Fragment
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
-                editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
                 MainActivity.toolbar.setVisibility(View.VISIBLE);
                 im.hideSoftInputFromWindow(menuSpinner.getWindowToken(), 0);
             }
@@ -85,7 +83,8 @@ public class TabFragment1 extends Fragment
             @Override
             public void onClick(View v)
             {
-                editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.editSearch.setText(null);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
                 MainActivity.toolbar.setVisibility(View.VISIBLE);
                 im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 if (v.getId() == R.id.menu_list)
@@ -181,6 +180,7 @@ public class TabFragment1 extends Fragment
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
                 im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
                 String string = (String) parent.getItemAtPosition(position);
                 menuSetting();
                 for (int i = 0; i < listMenu.size(); i++)
@@ -201,6 +201,20 @@ public class TabFragment1 extends Fragment
                 menuBtnListBack.setVisibility(View.VISIBLE);
                 menuBtnBack.setVisibility(View.VISIBLE);
                 menuInfo.setVisibility(View.VISIBLE);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        menuListView.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                return false;
             }
         });
 
@@ -213,7 +227,6 @@ public class TabFragment1 extends Fragment
 
         return view;
     }
-
 
     public void menuSetting()
     {

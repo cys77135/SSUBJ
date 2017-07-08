@@ -83,6 +83,7 @@ public class TabFragment3 extends Fragment
             @Override
             public void onClick(View v)
             {
+                MainActivity.editSearch.setText(null);
                 MainActivity.editSearch.setVisibility(View.INVISIBLE);
                 MainActivity.toolbar.setVisibility(View.VISIBLE);
                 im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -179,6 +180,7 @@ public class TabFragment3 extends Fragment
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
                 im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
                 String string = (String) parent.getItemAtPosition(position);
                 locationSetting();
                 for (int i = 0; i < listLocation.size(); i++)
@@ -199,6 +201,21 @@ public class TabFragment3 extends Fragment
                 locationBtnBack.setVisibility(View.VISIBLE);
                 locationInfo.setVisibility(View.VISIBLE);
                 locationBtnListBack.setVisibility(View.VISIBLE);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        locationListView.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                return false;
             }
         });
 

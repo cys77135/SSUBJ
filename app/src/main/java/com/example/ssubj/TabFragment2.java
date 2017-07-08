@@ -57,6 +57,7 @@ public class TabFragment2 extends Fragment
             @Override
             public void onClick(View v)
             {
+                MainActivity.editSearch.setText(null);
                 MainActivity.editSearch.setVisibility(View.INVISIBLE);
                 MainActivity.toolbar.setVisibility(View.VISIBLE);
                 im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -160,6 +161,20 @@ public class TabFragment2 extends Fragment
                 allInfo.setVisibility(View.VISIBLE);
                 allBtnBack.setVisibility(View.VISIBLE);
                 allBtnListBack.setVisibility(View.VISIBLE);
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        allListView.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                return false;
             }
         });
 
