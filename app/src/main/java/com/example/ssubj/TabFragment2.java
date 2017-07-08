@@ -1,10 +1,13 @@
 package com.example.ssubj;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,9 +26,10 @@ public class TabFragment2 extends Fragment
 {
     private ListView allListView;
     private TextView allInfo;
-    private LinearLayout all, allListSelect;
+    private LinearLayout all, allListSelect,tab;
     private Button allBtnList, allBtnSelect, allBtnBack, allBtnListBack;
     private ImageButton allBtnReplay;
+    private InputMethodManager im;
     ArrayList<String> listAll = new ArrayList<>();
 
     @Override
@@ -33,21 +37,19 @@ public class TabFragment2 extends Fragment
     {
         View view = inflater.inflate(R.layout.tab_fragment_2, null);
         allSetting();
-
         final ArrayAdapter<String> allAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listAll);
 
+        im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        tab=(LinearLayout) view.findViewById(R.id.tab);
         all = (LinearLayout) view.findViewById(R.id.all);
         allListSelect = (LinearLayout) view.findViewById(R.id.all_btns);
-
         allBtnList = (Button) view.findViewById(R.id.all_list);
         allBtnSelect = (Button) view.findViewById(R.id.all_select);
         allBtnBack = (Button) view.findViewById(R.id.all_back);
         allBtnListBack = (Button) view.findViewById(R.id.all_list_back);
-
         allBtnReplay = (ImageButton) view.findViewById(R.id.all_replay);
-
         allListView = (ListView) view.findViewById(R.id.all_listview);
-
         allInfo = (TextView) view.findViewById(R.id.all_info);
 
         View.OnClickListener allListener = new View.OnClickListener()
@@ -55,6 +57,9 @@ public class TabFragment2 extends Fragment
             @Override
             public void onClick(View v)
             {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 if (v.getId() == R.id.all_list)
                 {
                     allSetting();
@@ -91,6 +96,7 @@ public class TabFragment2 extends Fragment
                     allBtnReplay.setVisibility(View.INVISIBLE);
                     all.setVisibility(View.INVISIBLE);
                 }
+
                 else if (v.getId() == R.id.all_replay)
                 {
                     allInfo.setText(allRandom((int) (Math.random() * 74) + 1) + "\n");
@@ -101,6 +107,7 @@ public class TabFragment2 extends Fragment
                     allBtnReplay.setVisibility(View.VISIBLE);
                     allInfo.setVisibility(View.VISIBLE);
                 }
+
                 if (v.getId() == R.id.all_list_back)
                 {
                     allSetting();
@@ -117,11 +124,24 @@ public class TabFragment2 extends Fragment
             }
         };
 
+        tab.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                return false;
+            }
+        });
+
         allListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 String string = (String) parent.getItemAtPosition(position);
                 allSetting();
                 for (int i = 0; i < listAll.size(); i++)
@@ -148,7 +168,6 @@ public class TabFragment2 extends Fragment
         allBtnBack.setOnClickListener(allListener);
         allBtnReplay.setOnClickListener(allListener);
         allBtnListBack.setOnClickListener(allListener);
-
         allListView.setAdapter(allAdapter);
 
         return view;
@@ -206,6 +225,7 @@ public class TabFragment2 extends Fragment
             {
                 string = listAll.get(i).substring(5, listAll.get(i).length()) + "\n\n";
                 string += allText(listAll.get(i).substring(0, 5));
+
                 return string;
             }
         }
@@ -265,6 +285,7 @@ public class TabFragment2 extends Fragment
         {
             e.printStackTrace();
         }
+
         return stringm + stringl;
     }
 }

@@ -25,10 +25,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
+    static EditText editSearch;
+    static Toolbar toolbar;
+    private InputMethodManager im;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private EditText editSearch;
-    private Toolbar toolbar;
     private ImageButton btnSearch;
     private LinearLayout layoutTabPager;
     private TextView searchInfo;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         btnBack = (Button) findViewById(R.id.btn_back);
 
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
             {
                 editSearch.setVisibility(View.INVISIBLE);
                 toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(editSearch.getWindowToken(), 0);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -99,12 +103,10 @@ public class MainActivity extends AppCompatActivity
                     toolbar.setVisibility(View.VISIBLE);
                     layoutTabPager.setVisibility(View.VISIBLE);
                 }
-                else if (v.getId() == R.id.btn_search)
+                if (v.getId() == R.id.btn_search)
                 {
                     toolbar.setVisibility(View.INVISIBLE);
                     editSearch.setVisibility(View.VISIBLE);
-                    editSearch.requestFocus();
-                    InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     im.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 }
             }
@@ -119,11 +121,12 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (search(editSearch.getText().toString()) == null)
                     {
+                        im.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                         Toast.makeText(getApplicationContext(), "입력한 밥집이 목록에 없습니다", Toast.LENGTH_LONG).show();
+                        editSearch.setText(null);
                     }
                     else
                     {
-                        InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         im.hideSoftInputFromWindow(editSearch.getWindowToken(), 0);
 
                         searchInfo.setText(search(editSearch.getText().toString()));
@@ -137,7 +140,6 @@ public class MainActivity extends AppCompatActivity
                         editSearch.setText(null);
                         return true;
                     }
-                    editSearch.setText(null);
                 }
                 return false;
             }
@@ -188,11 +190,17 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 0; i < list.size(); i++)
         {
-            if (str.equals(list.get(i).substring(5, list.get(i).length())))
+            if (list.get(i).substring(5, list.get(i).length()).contains(str))
             {
                 str = list.get(i).substring(0, 5);
+                stringa = list.get(i).substring(5, list.get(i).length()) + "\n\n";
+                ck++;
                 break;
             }
+        }
+        if (ck == 0)
+        {
+            return null;
         }
         InputStream inputMData = getResources().openRawResource(R.raw.ssubjmlist);
         InputStream inputLData = getResources().openRawResource(R.raw.ssubjllist);
@@ -219,8 +227,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     break;
                 }
-
             }
+
             while (true)
             {
                 String Lstring = bufferedLReader.readLine();
@@ -246,7 +254,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        if (ck == 2)
+        if (ck == 3)
         {
             return stringa + stringm + stringl;
         }

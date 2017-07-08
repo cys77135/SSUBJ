@@ -1,10 +1,13 @@
 package com.example.ssubj;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,9 +30,10 @@ public class TabFragment3 extends Fragment
     private String locationSelected = "위치 선택";
     private ListView locationListView;
     private TextView locationInfo;
-    private LinearLayout location, locationListSelect;
+    private LinearLayout location, locationListSelect,tab;
     private Button locationBtnList, locationBtnSelect, locationBtnBack, locationBtnListBack;
     private ImageButton locationBtnReplay;
+    private InputMethodManager im;
     ArrayList<String> listLocation = new ArrayList<>();
 
     @Override
@@ -37,23 +41,20 @@ public class TabFragment3 extends Fragment
     {
         View view = inflater.inflate(R.layout.tab_fragment_3, null);
         locationSetting();
-
         final ArrayAdapter<String> locationAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLocation);
 
+        im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        tab=(LinearLayout) view.findViewById(R.id.tab);
         location = (LinearLayout) view.findViewById(R.id.location);
         locationListSelect = (LinearLayout) view.findViewById(R.id.location_btns);
-
         locationBtnList = (Button) view.findViewById(R.id.location_list);
         locationBtnSelect = (Button) view.findViewById(R.id.location_select);
         locationBtnBack = (Button) view.findViewById(R.id.location_back);
         locationBtnListBack = (Button) view.findViewById(R.id.location_list_back);
-
         locationBtnReplay = (ImageButton) view.findViewById(R.id.location_replay);
-
         locationListView = (ListView) view.findViewById(R.id.location_listview);
-
         locationInfo = (TextView) view.findViewById(R.id.location_info);
-
         locationSpinner = (Spinner) view.findViewById(R.id.location_spinner);
 
         locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -61,6 +62,9 @@ public class TabFragment3 extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(locationSpinner.getWindowToken(), 0);
                 locationSetting();
                 locationSelected = locationSpinner.getSelectedItem().toString();
             }
@@ -68,6 +72,9 @@ public class TabFragment3 extends Fragment
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(locationSpinner.getWindowToken(), 0);
             }
         });
 
@@ -76,6 +83,9 @@ public class TabFragment3 extends Fragment
             @Override
             public void onClick(View v)
             {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 if (v.getId() == R.id.location_list)
                 {
                     if (!locationSelected.equals("위치 선택"))
@@ -94,6 +104,7 @@ public class TabFragment3 extends Fragment
                         Toast.makeText(getActivity(), "위치를 선택하세요", Toast.LENGTH_LONG).show();
                     }
                 }
+
                 else if (v.getId() == R.id.location_select)
                 {
                     if (!locationSelected.equals("위치 선택"))
@@ -111,6 +122,7 @@ public class TabFragment3 extends Fragment
                         Toast.makeText(getActivity(), "위치를 선택하세요", Toast.LENGTH_LONG).show();
                     }
                 }
+
                 else if (v.getId() == R.id.location_back)
                 {
                     locationSetting();
@@ -122,6 +134,7 @@ public class TabFragment3 extends Fragment
                     locationBtnReplay.setVisibility(View.INVISIBLE);
                     locationListSelect.setVisibility(View.VISIBLE);
                 }
+
                 else if (v.getId() == R.id.location_replay)
                 {
                     locationInfo.setText(locationRandom());
@@ -132,6 +145,7 @@ public class TabFragment3 extends Fragment
                     locationBtnReplay.setVisibility(View.VISIBLE);
                     locationInfo.setVisibility(View.VISIBLE);
                 }
+
                 else if (v.getId() == R.id.location_list_back)
                 {
                     locationChange(locationSelected.charAt(0));
@@ -147,11 +161,24 @@ public class TabFragment3 extends Fragment
             }
         };
 
+        tab.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                MainActivity.editSearch.setVisibility(View.INVISIBLE);
+                MainActivity.toolbar.setVisibility(View.VISIBLE);
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                return false;
+            }
+        });
+
         locationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
+                im.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 String string = (String) parent.getItemAtPosition(position);
                 locationSetting();
                 for (int i = 0; i < listLocation.size(); i++)
@@ -180,7 +207,6 @@ public class TabFragment3 extends Fragment
         locationBtnBack.setOnClickListener(locationListener);
         locationBtnReplay.setOnClickListener(locationListener);
         locationBtnListBack.setOnClickListener(locationListener);
-
         locationListView.setAdapter(locationAdapter);
 
         return view;
@@ -240,7 +266,6 @@ public class TabFragment3 extends Fragment
     {
         int locationInt;
         String string;
-
         locationSetting();
 
         for (int i = listLocation.size() - 1; i >= 0; i--)
@@ -262,6 +287,7 @@ public class TabFragment3 extends Fragment
                     string = listLocation.get(i).substring(5, listLocation.get(i).length()) + "\n\n";
                     string += "메뉴 : " + locationText(listLocation.get(i).substring(1, 3)) + "\n\n";
                     string += "위치 : " + locationSelected.substring(3, locationSelected.length());
+
                     return string;
                 }
             }
@@ -297,6 +323,7 @@ public class TabFragment3 extends Fragment
         {
             e.printStackTrace();
         }
+
         return null;
     }
 }
